@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halfway - Bisection Method Visualizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Halfway</h1>
+        <nav>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="hero">
+            <h2>Halfway is an interactive web tool that demonstrates the bisection root-finding method in a clear, visual, and intuitive way.</h2>
+        </div>
+        
+        <div class="info">
+            <strong>How to use:</strong> Enter a function like <code>x^2 - 4</code> or <code>sin(x) - 0.5</code>. 
+            The bisection method finds roots by repeatedly halving an interval.
+        </div>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label>Function f(x):</label>
+                <input type="text" id="functionInput" placeholder="e.g., x^2 - 4, sin(x) - 0.5, x^3 - x - 1" value="x^2 - 4">
+            </div>
+            
+            <div class="inline-inputs">
+                <div class="input-group">
+                    <label>Left Endpoint (a):</label>
+                    <input type="number" id="leftInput" value="0" step="0.1">
+                </div>
+                
+                <div class="input-group">
+                    <label>Right Endpoint (b):</label>
+                    <input type="number" id="rightInput" value="3" step="0.1">
+                </div>
+                
+                <div class="input-group">
+                    <label>Tolerance:</label>
+                    <input type="number" id="toleranceInput" value="0.0001" step="0.0001">
+                </div>
+            </div>
+            
+            <button onclick="runBisection()">Find Root</button>
+        </div>
+        
+        <div id="errorDiv"></div>
+        
+        <div class="graph-container">
+            <div class="graph-controls">
+                <button onclick="zoomIn()">Zoom In</button>
+                <button onclick="zoomOut()">Zoom Out</button>
+                <button onclick="resetZoom()">Reset View</button>
+            </div>
+            <canvas id="graphCanvas"></canvas>
+        </div>
+        
+        <div id="resultsDiv"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
