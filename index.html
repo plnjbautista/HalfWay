@@ -12,7 +12,8 @@
     <script src="script.js" defer></script>
 </head>
 <body class="min-h-screen p-8">
-    <div class="max-w-7xl mx-auto">
+    <div class="app-wrapper max-w-7xl mx-auto">
+
         <!-- Header -->
         <header class="header">
             <h1 class="title">HalfWay</h1>
@@ -26,15 +27,17 @@
                 <!-- Description -->
                 <p class="text-sm text-gray-700 mb-2">
                     This tool helps you find the root of a function using the Bisection Root Finding Method.  
-                    Input the function f(x), choose an interval [a, b] where the function crosses zero, 
-                    and set the tolerance for accuracy.
+                    Input the function f(x), choose an interval [a, b] where the function crosses zero, and set the tolerance for accuracy.
+                    </p>
+                    <p class="text-sm text-gray-700 mb-2"></p>
+                     Enter functions using x as the variable, ^ for exponents, * for multiplication, and parentheses for function arguments and expressions; e.g., x^3 - x - 2, sin(x) + x^2, ln(x+1).
                 </p>
                 
                 <h2 class="section-title">Input Parameters</h2>
                 <div class="input-grid">
                     <div>
                         <label for="func-input" class="label">Function f(x)</label>
-                        <input type="text" id="func-input" class="input-field" placeholder="e.g., x^3 - x - 2, use ^ for exponents like x^2">
+                        <input type="text" id="func-input" class="input-field" placeholder="e.g., x^3 - x - 2, sin(x) + x^2, ln(x+1).">
                         
                     </div>
                     <div class="input-numbers">

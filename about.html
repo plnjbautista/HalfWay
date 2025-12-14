@@ -10,11 +10,21 @@
    Base Styles and Typography
 =========================== */
 body {
-    font-family: 'Pixelify Sans', cursive; /* Pixel font for all */
-    background-color: white;
+    font-family: 'Roboto', sans-serif;
+    background-color: #FFF8DE;
     min-height: 100vh;
     padding: 2rem;
-    color: black; /* default text color */
+}
+
+/* ===========================
+   App Wrapper (Entire Program)
+=========================== */
+.app-wrapper {
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-sizing: border-box;
 }
 
 .header {
@@ -25,24 +35,27 @@ body {
 }
 
 .title {
+   font-family: 'Pixelify Sans', cursive;
     font-size: 3rem;
     font-weight: 700;
+    color: #7898f9;
     margin: 0;
-    color: #2d5016;
 }
 
 .button-return {
-    padding: 0.5rem 1rem;
+    padding: 0;
     font-weight: 500;
     background-color: transparent;
-    color: #2d5016;
+    color: #7898f9;
+    border: none;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    font-family: 'Pixelify Sans', cursive;
 }
 
-.button-return:hover {
-    color: #4a7c2c;
+.button-return:hover { 
+    color: #6384e7; 
 }
 
 /* ===========================
@@ -50,134 +63,277 @@ body {
 =========================== */
 .main-container {
     display: flex;
-    gap: 2rem; /* columns closer together */
-    max-width: 1200px;
-    margin: 0 auto;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 3rem;
 }
 
 /* ===========================
-   About Section
+   About Section (Top)
 =========================== */
-.about-header h2 {
-    font-size: 2rem;
+.about-section {
+    background-color: #ECF4E8;
+    border: 2px solid black;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+.about-section h2 {
+    font-family: 'Pixelify Sans', cursive;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #7898f9;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.about-column h3 {
+    font-family: 'Pixelify Sans', cursive;
+    font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    color: black;
 }
 
 .about-description {
     font-size: 1rem;
     line-height: 1.8;
+    margin-bottom: 1rem;
+    color: black;
 }
 
-/* Right column */
-.about-container {
-    flex: 1;
-    min-width: 300px;
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.feature-list li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+}
+
+.feature-list li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #7898f9;
+    font-weight: bold;
 }
 
 /* ===========================
-   Developers Section
+   Developers Section (Bottom)
 =========================== */
 .developers-section h2 {
-    font-size: 2rem;
+    font-family: 'Pixelify Sans', cursive;
+    font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 2rem;
+    color: black;
+    text-align: center;
 }
 
-.developers-column {
-    flex: 1;
+.developers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.developer-card {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    min-width: 300px;
-}
-
-.developer-item {
-    display: flex;
     align-items: center;
-    gap: 0.5rem; /* less gap to make closer */
+    text-align: center;
 }
 
-.developer-item img {
-    width: 100px;
-    height: 100px;
+.developer-card img {
+    width: 150px;
+    height: 150px;
     object-fit: cover;
-    display: block;
+    border: 3px solid black;
+    margin-bottom: 1rem;
 }
 
-.developer-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.developer-first {
+.developer-first-name {
+    font-family: 'Pixelify Sans', cursive;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    color: black;
+    line-height: 1.2;
 }
 
-.developer-last,
-.developer-email {
+.developer-last-name {
+    font-family: 'Pixelify Sans', cursive;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: black;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.developer-program {
     font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.developer-email {
+    font-size: 0.9rem;
+    color: #666;
+    word-break: break-word;
 }
 
 /* ===========================
    Responsive Adjustments
 =========================== */
 @media (max-width: 900px) {
-    .main-container {
-        flex-direction: column;
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .developers-grid {
+        grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
+    }
+    
+    .developer-card img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .developer-first-name,
+    .developer-last-name {
+        font-size: 1.2rem;
+    }
+    
+    .developer-program {
+        font-size: 0.9rem;
+    }
+    
+    .developer-email {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 640px) {
+    body { 
+        padding: 1rem; 
+    }
+    .title { 
+        font-size: 2rem; 
+    }
+    .button-return {
+        font-size: 1.2rem;
+    }
+    .app-wrapper {
+        padding: 1.5rem;
+    }
+    .about-section h2,
+    .developers-section h2 {
+        font-size: 2rem;
+    }
+    
+    .developers-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    
+    .developer-card img {
+        width: 80px;
+        height: 80px;
+        border-width: 2px;
+    }
+    
+    .developer-first-name,
+    .developer-last-name {
+        font-size: 0.9rem;
+    }
+    
+    .developer-program {
+        font-size: 0.75rem;
+    }
+    
+    .developer-email {
+        font-size: 0.7rem;
     }
 }
 </style>
 </head>
 <body>
-    <header class="header">
-        <h1 class="title">HalfWay</h1>
-        <a class="button-return" href="index.html">&lt; Return</a>
-    </header>
+    <div class="app-wrapper">
+        <header class="header">
+            <h1 class="title">HalfWay</h1>
+            <a class="button-return" href="index.html">Return</a>
+        </header>
 
-    <div class="main-container">
-        <!-- Developers Left Column -->
-        <div class="developers-column">
-            <h2>Developers</h2>
-            <div class="developer-item">
-                <img src="assets/Jill.jpg" alt="Jill Navarra">
-                <div class="developer-text">
-                    <span class="developer-first">Jill</span>
-                    <span class="developer-last">Navarra</span>
-                    <span class="developer-email">jill.navarra@wvsu.edu.ph</span>
+        <div class="main-container">
+            <!-- About Section (Top) -->
+            <section class="about-section">
+                <h2>About HalfWay</h2>
+                <div class="about-content">
+                    <div class="about-column">
+                        <h3>What is HalfWay?</h3>
+                        <p class="about-description">
+                            HalfWay is an interactive web-based tool designed to visualize and demonstrate the Bisection Method, a fundamental numerical technique used to find the roots of nonlinear equations. The application provides a step-by-step visualization of how the algorithm converges to a solution by repeatedly bisecting intervals.
+                        </p>
+                        <h3>Key Features</h3>
+                        <ul class="feature-list">
+                            <li>Interactive graph visualization of function behavior</li>
+                            <li>Step-by-step iteration control and playback</li>
+                            <li>Detailed iteration table with all computational values</li>
+                        </ul>
+                    </div>
+                    <div class="about-column">
+                        <h3>Academic Context</h3>
+                        <p class="about-description">
+                            This project was developed in partial fulfillment of the subject CCS 239: Optimization Theory and Applications. Created by fourth-year Bachelor of Science in Computer Science students from section 4B AI at West Visayas State University.
+                        </p>
+                        <h3>About the Bisection Method</h3>
+                        <p class="about-description">
+                            The Bisection Method is a root-finding algorithm that repeatedly bisects an interval and selects a subinterval in which the root must lie. It's based on the Intermediate Value Theorem and guarantees convergence when the function is continuous and changes sign over the interval.
+                        </p>
+                        <p class="about-description">
+                            This method is particularly valuable for its simplicity, reliability, and guaranteed convergence, making it an excellent introduction to numerical analysis and optimization techniques.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="developer-item">
-                <img src="assets/Pauline.jpg" alt="Pauline Joy Bautista">
-                <div class="developer-text">
-                    <span class="developer-first">Pauline Joy</span>
-                    <span class="developer-last">Bautista</span>
-                    <span class="developer-email">paulinejoy.bautista@wvsu.edu.ph</span>
-                </div>
-            </div>
-            <div class="developer-item">
-                <img src="assets/Ash.jpg" alt="Ashley Denise Feliciano">
-                <div class="developer-text">
-                    <span class="developer-first">Ashley Denise</span>
-                    <span class="developer-last">Feliciano</span>
-                    <span class="developer-email">ashleydenise.feliciano@wvsu.edu.ph</span>
-                </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- About Right Column -->
-        <div class="about-container">
-            <h2>About HalfWay</h2>
-            <p class="about-description">
-                HalfWay is an interactive web based tool designed to visualize and demonstrate the Bisection Method, a fundamental numerical technique used to find the roots of nonlinear equations.
-            </p>
-            <p class="about-description">
-                This project was developed in partial fulfillment of the subject CCS 239 Optimization Theory and Applications and was created by a fourth year Bachelor of Science in Computer Science student from section 4B AI.
-            </p>
+            <!-- Developers Section (Bottom) -->
+            <section class="developers-section">
+                <h2>Meet the Developers</h2>
+                <div class="developers-grid">
+                    <div class="developer-card">
+                        <img src="assets/Jill.jpg" alt="Jill Navarra">
+                        <div class="developer-first-name">Jill</div>
+                        <div class="developer-last-name">Navarra</div>
+                        <div class="developer-program">BSCS 4B AI</div>
+                        <div class="developer-email">jill.navarra@wvsu.edu.ph</div>
+                    </div>
+                    <div class="developer-card">
+                        <img src="assets/Pauline.jpg" alt="Pauline Joy Bautista">
+                        <div class="developer-first-name">Pauline Joy</div>
+                        <div class="developer-last-name">Bautista</div>
+                        <div class="developer-program">BSCS 4B AI</div>
+                        <div class="developer-email">paulinejoy.bautista@wvsu.edu.ph</div>
+                    </div>
+                    <div class="developer-card">
+                        <img src="assets/Ash.jpg" alt="Ashley Denise Feliciano">
+                        <div class="developer-first-name">Ashley Denise</div>
+                        <div class="developer-last-name">Feliciano</div>
+                        <div class="developer-program">BSCS 4B AI</div>
+                        <div class="developer-email">ashleydenise.feliciano@wvsu.edu.ph</div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </body>

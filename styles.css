@@ -1,9 +1,21 @@
 /* ===========================
+   App Wrapper (Entire Program)
+=========================== */
+.app-wrapper {
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
+/* ===========================
    Base Styles and Typography
 =========================== */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #FCF8F8;
+    background-color: #FFF8DE;
     min-height: 100vh;
     padding: 2rem;
 }
@@ -19,7 +31,7 @@ body {
     font-family: 'Pixelify Sans', cursive;
     font-size: 3rem;
     font-weight: 700;
-    color: #2d5016;
+    color: #7898f9;
     margin: 0;
 }
 
@@ -27,15 +39,15 @@ body {
     padding: 0;
     font-weight: 500;
     background-color: transparent;
-    color: #2d5016;
+    color: #7898f9;
     border: none;
     text-decoration: none;
     cursor: pointer;
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     font-family: 'Pixelify Sans', cursive;
 }
 
-.button-about:hover { color: #4a7c2c; }
+.button-about:hover { color: #6384e7; }
 
 /* ===========================
    Container Wrapper
@@ -138,11 +150,11 @@ body {
     margin: 0.5rem 0; 
 }
 
-.button-primary { background-color: #ABE7B2; color: #2d5016; }
-.button-primary:hover { background-color: #9dd9a3; }
+.button-primary { background-color: #AAC4F5; color: black; }
+.button-primary:hover { background-color: #AAC4F5; }
 
-.button-secondary { background-color: #6b8e5f; color: white; }
-.button-secondary:hover { background-color: #5a7850; }
+.button-secondary { background-color: #8CA9FF; color: black; }
+.button-secondary:hover { background-color: #AAC4F5; }
 
 .button-control {
     flex: 1;
@@ -170,7 +182,7 @@ body {
     padding: 1rem;
     background-color: #ECF4E8;
     border: 2px solid black;
-    color: #2d5016;
+    
 }
 
 .font-mono { font-family: 'Courier New', Courier, monospace; }
@@ -219,13 +231,13 @@ body {
     font-weight: 600;
     margin-bottom: 0.75rem;
     font-size: 1.125rem;
-    color: #2d5016;
+    color: black;
 }
 
 .iteration-display-text {
     font-size: 2.25rem;
     font-weight: 700;
-    color: #2d5016;
+    color: black;
 }
 
 /* ===========================
@@ -243,7 +255,6 @@ body {
     padding: 0.25rem 0.5rem;
     background-color: white;
     border: 1px solid black;
-    border-radius: 0.25rem;
     font-size: 0.875rem; /* slightly smaller */
 }
 
@@ -265,17 +276,17 @@ body {
     padding: 0.5rem 0;    /* top/bottom padding, left/right handled by width */
     font-size: 0.875rem;
     font-weight: 500;
-    border: 1px solid black;
+    border: 2px solid black;
 
-    background-color: #ABE7B2;
-    color: #2d5016;
+    background-color: #8CA9FF;
+    color: black;
     cursor: pointer;
     transition: background-color 0.15s;
     margin-top: 0.5rem;
 }
 
 #reset-view-button:hover {
-    background-color: #9dd9a3;
+    background-color: #AAC4F5;
 }
 
 
@@ -311,7 +322,7 @@ body {
  
 }
 
-.data-table thead { background-color: #ABE7B2; }
+.data-table thead { background-color: #AAC4F5; }
 
 /* Table text colors */
 .data-table td, .data-table th {
@@ -320,7 +331,6 @@ body {
 
 /* TRUE/FALSE badge colors */
 .badge-true {
-    background-color: #d1fae5;
     color: #065f46;
     font-weight: 600;
     border-radius: 0.25rem;
@@ -330,7 +340,7 @@ body {
 }
 
 .badge-false {
-    background-color: #fee2e2;
+    
     color: #b91c1c;
     font-weight: 600;
     border-radius: 0.25rem;
@@ -344,6 +354,16 @@ body {
     background-color: #ECF4E8 !important;
     font-weight: 600;
 }
+
+.data-table th,
+.data-table td {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;   /* <-- THIS is the missing line */
+    text-align: left;
+    font-weight: 500;
+    color: #000000;
+}
+
 
 .data-table tbody tr:hover { background-color: #f9f9f9; }
 
@@ -372,21 +392,20 @@ body {
     padding: 0.5rem 1rem;
     font-weight: 500;
     border: 2px solid black;
-    background-color: #ABE7B2;
-    color: #2d5016;
+    background-color: #8CA9FF;
+    color: black;
     cursor: pointer;
     transition: background-color 0.15s;
 }
 
 .button-primary:hover {
-    background-color: #9dd9a3;
+    background-color: #AAC4F5;
 }
 
 /* Make full-width version */
 .button-primary.w-full {
     width: 100%;
 }
-
 
 /* ===========================
    Responsive Adjustments

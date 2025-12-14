@@ -27,24 +27,65 @@ const tableBody = document.createElement('tbody');
 // --- Utility Functions ---
 const evaluateFunction = (funcStr, x) => {
     try {
+        // Replace operators and implicit multiplications
         let expr = funcStr
-            .replace(/\^/g, '**')
-            .replace(/(\d)([a-z])/gi, '$1*$2')
-            .replace(/\)(\d)/g, ')*$1')
-            .replace(/(\d)\(/g, '$1*(')
-            .replace(/sin/g, 'Math.sin')
-            .replace(/cos/g, 'Math.cos')
-            .replace(/tan/g, 'Math.tan')
-            .replace(/sqrt/g, 'Math.sqrt')
-            .replace(/log/g, 'Math.log')
-            .replace(/exp/g, 'Math.exp');
-        const result = new Function('x', `return ${expr.replace(/x/g, `(${x})`)}`)(x);
+            .replace(/\^/g, '**')                 // Power operator
+            .replace(/(\d)([a-z])/gi, '$1*$2')    // 2x -> 2*x
+            .replace(/\)(\d)/g, ')*$1')           // )(2) -> )*2
+            .replace(/(\d)\(/g, '$1*(');          // 2(x) -> 2*(x)
+
+        // Handle special compound functions FIRST
+        expr = expr.replace(/cosinln/g, 'XXYYCOSINLNXXYY');
+
+        // Use UNIQUE temporary placeholders
+        expr = expr
+            .replace(/cosec/g, 'XXYYCOSECXXYY')
+            .replace(/sec/g, 'XXYYSECXXYY')
+            .replace(/csc/g, 'XXYYCSCXXYY')
+            .replace(/sqrt/g, 'XXYYSQRTXXYY')
+            .replace(/sin/g, 'XXYYSINXXYY')
+            .replace(/cos/g, 'XXYYCOSXXYY')
+            .replace(/tan/g, 'XXYYTANXXYY')
+            .replace(/\bln\b/g, 'XXYYLNXXYY')
+            .replace(/\blog\b/g, 'XXYYLOGXXYY')
+            .replace(/exp/g, 'XXYYEXPXXYY')
+            .replace(/abs/g, 'XXYYABSXXYY');
+
+        // Now replace placeholders with actual Math functions
+        expr = expr
+            .replace(/XXYYSINXXYY/g, 'Math.sin')
+            .replace(/XXYYCOSXXYY/g, 'Math.cos')
+            .replace(/XXYYTANXXYY/g, 'Math.tan')
+            .replace(/XXYYSECXXYY\(/g, '(1/Math.cos(')
+            .replace(/XXYYCOSECXXYY\(/g, '(1/Math.sin(')
+            .replace(/XXYYCSCXXYY\(/g, '(1/Math.sin(')
+            .replace(/XXYYSQRTXXYY/g, 'Math.sqrt')
+            .replace(/XXYYLNXXYY/g, 'Math.log')
+            .replace(/XXYYLOGXXYY\(/g, '(Math.log(')
+            .replace(/XXYYEXPXXYY/g, 'Math.exp')
+            .replace(/XXYYABSXXYY/g, 'Math.abs')
+            .replace(/XXYYCOSINLNXXYY/g, 'Math.log(Math.cos');  // cosinln = ln(cos(...))
+
+        // Fix log base 10
+        expr = expr.replace(/\(Math\.log\(([^()]+)\)\)/g, '(Math.log($1)/Math.LN10)');
+        
+        // Add closing paren for sec/cosec/csc
+        const openCount = (expr.match(/\(/g) || []).length;
+        const closeCount = (expr.match(/\)/g) || []).length;
+        if (openCount > closeCount) {
+            expr += ')'.repeat(openCount - closeCount);
+        }
+
+        // Evaluate the expression with x as parameter
+        const result = new Function('x', `return ${expr}`)(x);
+
         if (isNaN(result) || !isFinite(result)) throw new Error('NaN or Infinity');
         return result;
     } catch (e) {
         throw new Error('Invalid function or math error: ' + e.message);
     }
 };
+
 
 const displayError = (msg) => { errorMessage.textContent = msg; errorMessage.classList.remove('hidden'); };
 const clearError = () => { errorMessage.classList.add('hidden'); errorMessage.textContent = ''; };
