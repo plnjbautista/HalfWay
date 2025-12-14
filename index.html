@@ -23,25 +23,32 @@
         <div class="main-container">
             <!-- Input Section -->
             <section id="input-section" class="card input-card">
+                <!-- Description -->
+                <p class="text-sm text-gray-700 mb-2">
+                    This tool helps you find the root of a function using the Bisection Root Finding Method.  
+                    Input the function f(x), choose an interval [a, b] where the function crosses zero, 
+                    and set the tolerance for accuracy.
+                </p>
+                
                 <h2 class="section-title">Input Parameters</h2>
                 <div class="input-grid">
                     <div>
                         <label for="func-input" class="label">Function f(x)</label>
-                        <input type="text" id="func-input" value="x^3 - x - 2" class="input-field" placeholder="e.g., x^3 - x - 2">
-                        <p class="text-xs text-gray-500 mt-1">Use ^ for power, e.g., x^2 or x^3</p>
+                        <input type="text" id="func-input" class="input-field" placeholder="e.g., x^3 - x - 2, use ^ for exponents like x^2">
+                        
                     </div>
                     <div class="input-numbers">
                         <div>
-                            <label for="a-input" class="label">a (left)</label>
-                            <input type="text" id="a-input" value="1" class="input-field">
+                            <label for="a-input" class="label">Left Endpoint (a)</label>
+                            <input type="text" id="a-input" class="input-field" placeholder="e.g., 1">
                         </div>
                         <div>
-                            <label for="b-input" class="label">b (right)</label>
-                            <input type="text" id="b-input" value="2" class="input-field">
+                            <label for="b-input" class="label">Right Endpoint (b)</label>
+                            <input type="text" id="b-input" class="input-field" placeholder="e.g., 2">
                         </div>
                         <div>
-                            <label for="tolerance-input" class="label">Tolerance</label>
-                            <input type="text" id="tolerance-input" value="0.001" class="input-field">
+                            <label for="tolerance-input" class="label">Tolerance (ε)</label>
+                            <input type="text" id="tolerance-input" class="input-field" placeholder="e.g., 0.001">
                         </div>
                     </div>
                 </div>
@@ -62,44 +69,41 @@
             <div id="results-container" class="hidden">
                 <!-- Summary Section -->
                 <section class="card summary-card">
-                    <h2 class="section-title">Summary</h2>
+                    <h2 class="section-title">Problem Summary</h2>
                     <div id="summary-content" class="summary-box"></div>
                 </section>
 
                 <!-- Visualization Section -->
-                <section id="visualization-container" class="card">
-                    <h2 class="section-title" style="font-family: 'Pixelify Sans', cursive;">Visualization</h2>
-                    <p class="text-sm mb-4">This graph visualizes the steps of the bisection method and convergence toward the root.</p>
+                <div class="visualization-wrapper">
+    <div class="graph-control-grid">
+        <!-- Graph -->
+        <div class="graph-container">
+            <canvas id="bisection-chart"></canvas>
+        </div>
 
-                    <div class="visualization-wrapper">
-                        <div class="graph-control-grid">
-                            <!-- Graph -->
-                            <div class="graph-container">
-                                <canvas id="bisection-chart"></canvas>
-                            </div>
+        <!-- Iteration Control -->
+        <div id="control-panel" class="control-panel">
+            <h3 class="control-title">Iteration Control</h3>
+            <div class="text-center mb-4">
+                <span id="iteration-display" class="iteration-display-text">0 / 0</span>
+            </div>
+            <div class="flex gap-2 mb-4 justify-center">
+                <button id="prev-button" class="button-control" disabled>Prev</button>
+                <button id="next-button" class="button-control" disabled>Next</button>
+            </div>
+            <div id="iteration-details" class="space-y-2 text-sm text-justify">
+                <!-- Iteration details will appear here -->
+            </div>
 
-                            <!-- Iteration Control -->
-                            <div id="control-panel" class="control-panel">
-                                <h3 class="control-title">Iteration Control</h3>
-                                <div class="text-center mb-4">
-                                    <span id="iteration-display" class="iteration-display-text">0 / 0</span>
-                                </div>
-                                <div class="flex gap-2 mb-4 justify-center">
-                                    <button id="prev-button" class="button-control" disabled>Prev</button>
-                                    <button id="next-button" class="button-control" disabled>Next</button>
-                                </div>
-                                <div id="iteration-details" class="space-y-2 text-sm text-justify">
-                                    <!-- Iteration details will appear here -->
-                                </div>
-                            </div>
-                        </div>
+            <!-- Instruction Text and Reset Button moved inside control panel -->
+            <div class="mt-4 text-center">
+                <p class="mb-2 text-sm">You can zoom on specific regions on the graph by drawing a rectangle around it. Click the Default View button to restore the default view.</p>
+                <button id="reset-view-button" class="button-primary">Default View</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- Instruction Text and Reset Button under control -->
-                        <div class="mt-4 text-center">
-                            <p class="mb-2 text-sm">You can zoom in/out the graph using your mouse or pinch gestures. Click the Reset button to restore the default view.</p>
-                            <button id="reset-view-button" class="button-primary">Reset View</button>
-                        </div>
-                    </div>
                 </section>
 
                 <!-- Iteration Table Section -->
@@ -108,6 +112,11 @@
                     <div class="table-wrapper scrollable-table">
                         <table id="iteration-table" class="data-table"></table>
                     </div>
+                    <div class="mt-2 mb-2 w-full">
+                        <button id="download-csv-button" class="button-primary w-full">Download CSV</button>
+                    </div>
+
+
                 </section>
             </div>
         </div>

@@ -3,7 +3,7 @@
 =========================== */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: white;
+    background-color: #FCF8F8;
     min-height: 100vh;
     padding: 2rem;
 }
@@ -32,6 +32,7 @@ body {
     text-decoration: none;
     cursor: pointer;
     font-size: 1.125rem;
+    font-family: 'Pixelify Sans', cursive;
 }
 
 .button-about:hover { color: #4a7c2c; }
@@ -71,6 +72,7 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    font-family: 'Pixelify Sans', cursive;
 }
 
 /* ===========================
@@ -113,7 +115,7 @@ body {
     border: 1px solid #f87171;
     color: #b91c1c;
     padding: 0.75rem 1rem;
-    border-radius: 0.25rem;
+    margin: 0.5rem 0;       
 }
 
 /* ===========================
@@ -133,6 +135,7 @@ body {
     border: 2px solid black;
     cursor: pointer;
     transition: background-color 0.15s;
+    margin: 0.5rem 0; 
 }
 
 .button-primary { background-color: #ABE7B2; color: #2d5016; }
@@ -231,29 +234,39 @@ body {
 #iteration-details {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    text-align: justify;
+    gap: 0.25rem;
 }
 
 .control-detail-row {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0.75rem;
+    justify-content: space-between; /* label left, value right */
+    padding: 0.25rem 0.5rem;
     background-color: white;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 0.25rem;
+    font-size: 0.875rem; /* slightly smaller */
 }
 
-/* Reset View Button styling to match other buttons */
+.control-detail-label {
+    font-weight: 500;
+}
+
+.control-detail-value {
+    text-align: right;
+}
+
+/* Reset View Button - full width */
 #reset-view-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1.5rem;
+    width: 100%;          /* fill the container width */
+    max-width: 100%;      /* ensure no overflow */
+    padding: 0.5rem 0;    /* top/bottom padding, left/right handled by width */
+    font-size: 0.875rem;
     font-weight: 500;
-    border: 2px solid black;
+    border: 1px solid black;
+
     background-color: #ABE7B2;
     color: #2d5016;
     cursor: pointer;
@@ -264,6 +277,7 @@ body {
 #reset-view-button:hover {
     background-color: #9dd9a3;
 }
+
 
 /* ===========================
    Iteration Table Scroll
@@ -294,16 +308,41 @@ body {
     font-size: 0.875rem;
     border-collapse: collapse;
     border: 2px solid black;
+ 
 }
 
 .data-table thead { background-color: #ABE7B2; }
 
-.data-table th, .data-table td {
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid black;
-    text-align: left;
+/* Table text colors */
+.data-table td, .data-table th {
+    color: #000000; /* default black */
+}
+
+/* TRUE/FALSE badge colors */
+.badge-true {
+    background-color: #d1fae5;
+    color: #065f46;
     font-weight: 600;
-    color: #2d5016;
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.badge-false {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Highlight entire TRUE row */
+.data-table tbody tr.true-row {
+    background-color: #ECF4E8 !important;
+    font-weight: 600;
 }
 
 .data-table tbody tr:hover { background-color: #f9f9f9; }
@@ -318,6 +357,36 @@ body {
 .badge { padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; display: inline-block; }
 .bg-green-100 { background-color: #d1fae5; }
 .bg-red-100 { background-color: #fee2e2; }
+
+/* Prevent text selection and pointer interactions */
+#iteration-table {
+    user-select: none;      /* Disable text selection */
+    pointer-events: none;   /* Disable all clicks */
+    cursor: default;        /* Show default cursor instead of pointer */
+}
+
+.button-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border: 2px solid black;
+    background-color: #ABE7B2;
+    color: #2d5016;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.button-primary:hover {
+    background-color: #9dd9a3;
+}
+
+/* Make full-width version */
+.button-primary.w-full {
+    width: 100%;
+}
+
 
 /* ===========================
    Responsive Adjustments

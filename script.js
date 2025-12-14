@@ -59,7 +59,7 @@ const runBisection = () => {
         aVal = parseFloat(aInput.value);
         bVal = parseFloat(bInput.value);
         toleranceVal = parseFloat(toleranceInput.value);
-        if (isNaN(aVal) || isNaN(bVal) || isNaN(toleranceVal)) throw new Error('Enter valid numbers for a, b, tolerance.');
+        if (isNaN(aVal) || isNaN(bVal) || isNaN(toleranceVal)) throw new Error('Enter valid values.');
         if (aVal >= bVal) throw new Error('Lower bound a must be less than b.');
 
         let aTemp = aVal, bTemp = bVal, iter = 0, maxIter = 100;
@@ -106,25 +106,26 @@ const updateUI = () => {
 const updateSummary = () => {
     const finalResult = results[results.length - 1];
     summaryContent.innerHTML = `
-        <p style="color:#2d5016;">Root of f(x) = ${funcStr} in [${aVal}, ${bVal}] with tolerance ${toleranceVal}.</p>
-        <p style="color:#3d6626;">Using bisection: c = (a+b)/2</p>
+        <p style="color:#000000;">Find the root of f(x) = ${funcStr} in the interval [${aVal}, ${bVal}] with tolerance ${toleranceVal}.</p>
         <p style="color:#000000;">Root found: ${toFixedSafe(finalResult.c,6)} after ${results.length} iterations</p>
     `;
 };
 
 const updateControls = () => {
     const iterData = results[currentIteration];
-    iterationDisplay.textContent = `${currentIteration+1} / ${results.length}`;
+    iterationDisplay.textContent = `${currentIteration + 1} / ${results.length}`;
     prevButton.disabled = currentIteration === 0;
-    nextButton.disabled = currentIteration === results.length-1;
+    nextButton.disabled = currentIteration === results.length - 1;
+
     iterationDetails.innerHTML = `
-        <div>a: ${toFixedSafe(iterData.a,6)}</div>
-        <div>b: ${toFixedSafe(iterData.b,6)}</div>
-        <div>c: ${toFixedSafe(iterData.c,6)}</div>
-        <div>f(c): ${toFixedSafe(iterData.fc,6)}</div>
-        <div>b-a: ${toFixedSafe(iterData.diff,6)}</div>
+        <div class="control-detail-row"><span class="control-detail-label">a:</span><span class="control-detail-value">${toFixedSafe(iterData.a,6)}</span></div>
+        <div class="control-detail-row"><span class="control-detail-label">b:</span><span class="control-detail-value">${toFixedSafe(iterData.b,6)}</span></div>
+        <div class="control-detail-row"><span class="control-detail-label">c:</span><span class="control-detail-value">${toFixedSafe(iterData.c,6)}</span></div>
+        <div class="control-detail-row"><span class="control-detail-label">f(c):</span><span class="control-detail-value">${toFixedSafe(iterData.fc,6)}</span></div>
+        <div class="control-detail-row"><span class="control-detail-label">b-a:</span><span class="control-detail-value">${toFixedSafe(iterData.diff,6)}</span></div>
     `;
 };
+
 
 const generateGraphData = () => {
     if (!results.length) return [];
@@ -192,30 +193,71 @@ const updateTable = () => {
         tableEl.appendChild(thead);
         tableEl.appendChild(tableBody);
     }
-    results.forEach((row, idx)=>{
-        const tr = document.createElement('tr');
-        tr.className = idx===currentIteration?'highlighted-row':'';
-        tr.onclick = ()=>{currentIteration=idx;updateUI();};
-        tr.innerHTML = `
-            <td>${row.iteration}</td>
-            <td>${toFixedSafe(row.a,6)}</td>
-            <td>${toFixedSafe(row.b,6)}</td>
-            <td>${toFixedSafe(row.c,6)}</td>
-            <td>${toFixedSafe(row.fa,6)}</td>
-            <td>${toFixedSafe(row.fb,6)}</td>
-            <td>${toFixedSafe(row.fc,6)}</td>
-            <td>${toFixedSafe(row.diff,6)}</td>
-            <td>${row.meetsTolerance?'TRUE':'FALSE'}</td>
-        `;
-        tableBody.appendChild(tr);
-    });
+    results.forEach((row, idx) => {
+    const tr = document.createElement('tr');
+
+    // Highlight row if TRUE
+    if (row.meetsTolerance) tr.classList.add('true-row');
+    if (idx === currentIteration) tr.classList.add('highlighted-row');
+
+    tr.onclick = () => { currentIteration = idx; updateUI(); };
+
+    tr.innerHTML = `
+        <td>${row.iteration}</td>
+        <td>${toFixedSafe(row.a,6)}</td>
+        <td>${toFixedSafe(row.b,6)}</td>
+        <td>${toFixedSafe(row.c,6)}</td>
+        <td>${toFixedSafe(row.fa,6)}</td>
+        <td>${toFixedSafe(row.fb,6)}</td>
+        <td>${toFixedSafe(row.fc,6)}</td>
+        <td>${toFixedSafe(row.diff,6)}</td>
+        <td><span class="${row.meetsTolerance ? 'badge-true' : 'badge-false'}">${row.meetsTolerance ? 'TRUE' : 'FALSE'}</span></td>
+    `;
+    tableBody.appendChild(tr);
+});
+
 };
 
 // --- Events ---
-document.addEventListener('DOMContentLoaded',()=>{
-    funcInput.value=funcStr; aInput.value=aVal; bInput.value=bVal; toleranceInput.value=toleranceVal;
-    calculateButton.addEventListener('click',runBisection);
-    resetButton.addEventListener('click',reset);
-    prevButton.addEventListener('click',()=>{currentIteration--;updateUI();});
-    nextButton.addEventListener('click',()=>{currentIteration++;updateUI();});
+document.addEventListener('DOMContentLoaded', () => {
+    // Removed setting default values; placeholders will guide the user
+    calculateButton.addEventListener('click', runBisection);
+    resetButton.addEventListener('click', reset);
+    prevButton.addEventListener('click', () => { currentIteration--; updateUI(); });
+    nextButton.addEventListener('click', () => { currentIteration++; updateUI(); });
 });
+
+const downloadCSVButton = document.getElementById('download-csv-button');
+
+const downloadCSV = () => {
+    if (!results.length) return;
+
+    // CSV header
+    const headers = ["Iteration", "a", "b", "c", "f(a)", "f(b)", "f(c)", "b-a", "Tolerance Met"];
+    const rows = results.map(r => [
+        r.iteration,
+        r.a.toFixed(6),
+        r.b.toFixed(6),
+        r.c.toFixed(6),
+        r.fa.toFixed(6),
+        r.fb.toFixed(6),
+        r.fc.toFixed(6),
+        r.diff.toFixed(6),
+        r.meetsTolerance ? "TRUE" : "FALSE"
+    ]);
+
+    // Join header and rows
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bisection_iterations.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+};
+
+// Event listener
+downloadCSVButton.addEventListener('click', downloadCSV);
