@@ -145,12 +145,68 @@ const updateUI = () => {
 };
 
 const updateSummary = () => {
-    const finalResult = results[results.length - 1];
+    const first = results[0];
+    const second = results[1];
+    const last = results[results.length - 1];
+
+    let solvingSteps = `
+        <p><strong>Bisection Method for Root Finding</strong></p>
+
+        <p>
+            Since f(a<sub>0</sub>)·f(b<sub>0</sub>) &lt; 0 and f(x) is continuous
+            on [a<sub>0</sub>, b<sub>0</sub>], a root exists in the interval.
+        </p>
+    `;
+
+    solvingSteps += solveStepText(first, 0);
+    if (second) solvingSteps += solveStepText(second, 1);
+
+    if (results.length > 2) {
+        solvingSteps += `<div style="margin:6px 0;"><em>⋯</em></div>`;
+        solvingSteps += solveStepText(last, results.length - 1);
+    }
+
+    solvingSteps += `
+        <p>
+            The interval is repeatedly halved until
+            <strong>b<sub>k</sub> − a<sub>k</sub> &lt; ε</strong>,
+            where ε = ${toleranceVal}.
+        </p>
+
+        <p>
+            The midpoint of the final interval gives the approximate root:
+            <strong>x ≈ ${toFixedSafe(last.c, 6)}</strong>
+        </p>
+    `;
+
     summaryContent.innerHTML = `
-        <p style="color:#000000;">Find the root of f(x) = ${funcStr} in the interval [${aVal}, ${bVal}] with tolerance ${toleranceVal}.</p>
-        <p style="color:#000000;">Root found: ${toFixedSafe(finalResult.c,6)} after ${results.length} iterations</p>
+        <p>
+            <strong>Problem:</strong> Find the root of
+            f(x) = ${funcStr} on [${aVal}, ${bVal}]
+        </p>
+        ${solvingSteps}
     `;
 };
+
+
+const solveStepText = (r, k) => {
+    const intervalDecision =
+        r.fa * r.fc < 0
+            ? `f(a_${k})·f(c_${k+1}) < 0 ⇒ root ∈ [a_${k}, c_${k+1}]`
+            : `f(b_${k})·f(c_${k+1}) < 0 ⇒ root ∈ [c_${k+1}, b_${k}]`;
+
+    return `
+        <div style="margin-bottom:10px;">
+            <strong>Iteration ${k + 1}:</strong><br>
+            c<sub>${k + 1}</sub> = (a<sub>${k}</sub> + b<sub>${k}</sub>) / 2
+            = (${toFixedSafe(r.a)} + ${toFixedSafe(r.b)}) / 2
+            = <strong>${toFixedSafe(r.c)}</strong><br>
+            f(c<sub>${k + 1}</sub>) = ${toFixedSafe(r.fc)}<br>
+            ${intervalDecision}
+        </div>
+    `;
+};
+
 
 const updateControls = () => {
     const iterData = results[currentIteration];
