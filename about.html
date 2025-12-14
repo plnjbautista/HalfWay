@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - HalfWay</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================
+   Base Styles and Typography
+=========================== */
+body {
+    font-family: 'Pixelify Sans', cursive; /* Pixel font for all */
+    background-color: white;
+    min-height: 100vh;
+    padding: 2rem;
+    color: black; /* default text color */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2d5016;
+}
+
+.button-return {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: #2d5016;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.button-return:hover {
+    color: #4a7c2c;
+}
+
+/* ===========================
+   Main Layout
+=========================== */
+.main-container {
+    display: flex;
+    gap: 2rem; /* columns closer together */
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+/* ===========================
+   About Section
+=========================== */
+.about-header h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.about-description {
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Right column */
+.about-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* ===========================
+   Developers Section
+=========================== */
+.developers-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.developers-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-width: 300px;
+}
+
+.developer-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* less gap to make closer */
+}
+
+.developer-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.developer-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.developer-first {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.developer-last,
+.developer-email {
+    font-size: 1rem;
+}
+
+/* ===========================
+   Responsive Adjustments
+=========================== */
+@media (max-width: 900px) {
+    .main-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+</style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">HalfWay</h1>
+        <a class="button-return" href="index.html">&lt; Return</a>
+    </header>
+
+    <div class="main-container">
+        <!-- Developers Left Column -->
+        <div class="developers-column">
+            <h2>Developers</h2>
+            <div class="developer-item">
+                <img src="assets/Jill.jpg" alt="Jill Navarra">
+                <div class="developer-text">
+                    <span class="developer-first">Jill</span>
+                    <span class="developer-last">Navarra</span>
+                    <span class="developer-email">jill.navarra@wvsu.edu.ph</span>
+                </div>
+            </div>
+            <div class="developer-item">
+                <img src="assets/Pauline.jpg" alt="Pauline Joy Bautista">
+                <div class="developer-text">
+                    <span class="developer-first">Pauline Joy</span>
+                    <span class="developer-last">Bautista</span>
+                    <span class="developer-email">paulinejoy.bautista@wvsu.edu.ph</span>
+                </div>
+            </div>
+            <div class="developer-item">
+                <img src="assets/Ash.jpg" alt="Ashley Denise Feliciano">
+                <div class="developer-text">
+                    <span class="developer-first">Ashley Denise</span>
+                    <span class="developer-last">Feliciano</span>
+                    <span class="developer-email">ashleydenise.feliciano@wvsu.edu.ph</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Right Column -->
+        <div class="about-container">
+            <h2>About HalfWay</h2>
+            <p class="about-description">
+                HalfWay is an interactive web based tool designed to visualize and demonstrate the Bisection Method, a fundamental numerical technique used to find the roots of nonlinear equations.
+            </p>
+            <p class="about-description">
+                This project was developed in partial fulfillment of the subject CCS 239 Optimization Theory and Applications and was created by a fourth year Bachelor of Science in Computer Science student from section 4B AI.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

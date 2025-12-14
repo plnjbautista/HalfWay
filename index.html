@@ -3,71 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halfway - Bisection Method Visualizer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>HalfWay - Bisection Method Visualizer</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.2.1/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="script.js" defer></script>
 </head>
-<body>
-    <header>
-        <h1>Halfway</h1>
-        <nav>
-            <a href="#about">About</a>
-        </nav>
-    </header>
-    
-    <div class="container">
-        <div class="hero">
-            <h2>Halfway is an interactive web tool that demonstrates the bisection root-finding method in a clear, visual, and intuitive way.</h2>
-        </div>
-        
-        <div class="info">
-            <strong>How to use:</strong> Enter a function like <code>x^2 - 4</code> or <code>sin(x) - 0.5</code>. 
-            The bisection method finds roots by repeatedly halving an interval.
-        </div>
-        
-        <div class="input-section">
-            <div class="input-group">
-                <label>Function f(x):</label>
-                <input type="text" id="functionInput" placeholder="e.g., x^2 - 4, sin(x) - 0.5, x^3 - x - 1" value="x^2 - 4">
-            </div>
-            
-            <div class="inline-inputs">
-                <div class="input-group">
-                    <label>Left Endpoint (a):</label>
-                    <input type="number" id="leftInput" value="0" step="0.1">
+<body class="min-h-screen p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">HalfWay</h1>
+            <a href="about.html" class="button-about">About</a>
+        </header>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Input Section -->
+            <section id="input-section" class="card input-card">
+                <h2 class="section-title">Input Parameters</h2>
+                <div class="input-grid">
+                    <div>
+                        <label for="func-input" class="label">Function f(x)</label>
+                        <input type="text" id="func-input" value="x^3 - x - 2" class="input-field" placeholder="e.g., x^3 - x - 2">
+                        <p class="text-xs text-gray-500 mt-1">Use ^ for power, e.g., x^2 or x^3</p>
+                    </div>
+                    <div class="input-numbers">
+                        <div>
+                            <label for="a-input" class="label">a (left)</label>
+                            <input type="text" id="a-input" value="1" class="input-field">
+                        </div>
+                        <div>
+                            <label for="b-input" class="label">b (right)</label>
+                            <input type="text" id="b-input" value="2" class="input-field">
+                        </div>
+                        <div>
+                            <label for="tolerance-input" class="label">Tolerance</label>
+                            <input type="text" id="tolerance-input" value="0.001" class="input-field">
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="input-group">
-                    <label>Right Endpoint (b):</label>
-                    <input type="number" id="rightInput" value="3" step="0.1">
+
+                <div id="error-message" class="error-box hidden mb-4"></div>
+
+                <div class="flex flex-wrap gap-4">
+                    <button id="calculate-button" class="button-primary">
+                        Calculate Root
+                    </button>
+                    <button id="reset-button" class="button-secondary hidden">
+                        Reset
+                    </button>
                 </div>
-                
-                <div class="input-group">
-                    <label>Tolerance:</label>
-                    <input type="number" id="toleranceInput" value="0.0001" step="0.0001">
-                </div>
+            </section>
+
+            <!-- Results Container -->
+            <div id="results-container" class="hidden">
+                <!-- Summary Section -->
+                <section class="card summary-card">
+                    <h2 class="section-title">Summary</h2>
+                    <div id="summary-content" class="summary-box"></div>
+                </section>
+
+                <!-- Visualization Section -->
+                <section id="visualization-container" class="card">
+                    <h2 class="section-title" style="font-family: 'Pixelify Sans', cursive;">Visualization</h2>
+                    <p class="text-sm mb-4">This graph visualizes the steps of the bisection method and convergence toward the root.</p>
+
+                    <div class="visualization-wrapper">
+                        <div class="graph-control-grid">
+                            <!-- Graph -->
+                            <div class="graph-container">
+                                <canvas id="bisection-chart"></canvas>
+                            </div>
+
+                            <!-- Iteration Control -->
+                            <div id="control-panel" class="control-panel">
+                                <h3 class="control-title">Iteration Control</h3>
+                                <div class="text-center mb-4">
+                                    <span id="iteration-display" class="iteration-display-text">0 / 0</span>
+                                </div>
+                                <div class="flex gap-2 mb-4 justify-center">
+                                    <button id="prev-button" class="button-control" disabled>Prev</button>
+                                    <button id="next-button" class="button-control" disabled>Next</button>
+                                </div>
+                                <div id="iteration-details" class="space-y-2 text-sm text-justify">
+                                    <!-- Iteration details will appear here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instruction Text and Reset Button under control -->
+                        <div class="mt-4 text-center">
+                            <p class="mb-2 text-sm">You can zoom in/out the graph using your mouse or pinch gestures. Click the Reset button to restore the default view.</p>
+                            <button id="reset-view-button" class="button-primary">Reset View</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Iteration Table Section -->
+                <section class="card table-card">
+                    <h2 class="section-title">Iteration Table</h2>
+                    <div class="table-wrapper scrollable-table">
+                        <table id="iteration-table" class="data-table"></table>
+                    </div>
+                </section>
             </div>
-            
-            <button onclick="runBisection()">Find Root</button>
         </div>
-        
-        <div id="errorDiv"></div>
-        
-        <div class="graph-container">
-            <div class="graph-controls">
-                <button onclick="zoomIn()">Zoom In</button>
-                <button onclick="zoomOut()">Zoom Out</button>
-                <button onclick="resetZoom()">Reset View</button>
-            </div>
-            <canvas id="graphCanvas"></canvas>
-        </div>
-        
-        <div id="resultsDiv"></div>
     </div>
-    
-    <script src="script.js"></script>
 </body>
 </html>
