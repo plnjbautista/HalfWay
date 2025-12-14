@@ -27,17 +27,43 @@ const tableBody = document.createElement('tbody');
 // --- Utility Functions ---
 const evaluateFunction = (funcStr, x) => {
     try {
-        // Replace operators and implicit multiplications
+        // -------------------------------
+        // 1. Normalize input
+        // -------------------------------
+        funcStr = funcStr
+            .replace(/−/g, '-')      // Unicode minus → ASCII
+            .replace(/\s+/g, '')     // Remove spaces
+            .toLowerCase();          // Case-insensitive
+
+        // -------------------------------
+        // 2. Convert e^x → exp(x)
+        // Handles: e^x, e^-x, e^(x+1), e^(-x)
+        // -------------------------------
+        funcStr = funcStr.replace(/\be\^\(?([^)]+)\)?/g, 'exp($1)');
+
+        // -------------------------------
+        // 3. Replace standalone e → Math.E
+        // (after e^x conversion!)
+        // -------------------------------
+        funcStr = funcStr.replace(/\be\b/g, 'Math.E');
+
+        // -------------------------------
+        // 4. Basic operator fixes
+        // -------------------------------
         let expr = funcStr
             .replace(/\^/g, '**')                 // Power operator
-            .replace(/(\d)([a-z])/gi, '$1*$2')    // 2x -> 2*x
-            .replace(/\)(\d)/g, ')*$1')           // )(2) -> )*2
-            .replace(/(\d)\(/g, '$1*(');          // 2(x) -> 2*(x)
+            .replace(/(\d)([a-z])/gi, '$1*$2')    // 2x → 2*x
+            .replace(/\)(\d)/g, ')*$1')           // )(2) → )*2
+            .replace(/(\d)\(/g, '$1*(');          // 2(x) → 2*(x)
 
-        // Handle special compound functions FIRST
+        // -------------------------------
+        // 5. Handle special compound functions FIRST
+        // -------------------------------
         expr = expr.replace(/cosinln/g, 'XXYYCOSINLNXXYY');
 
-        // Use UNIQUE temporary placeholders
+        // -------------------------------
+        // 6. Temporary placeholders
+        // -------------------------------
         expr = expr
             .replace(/cosec/g, 'XXYYCOSECXXYY')
             .replace(/sec/g, 'XXYYSECXXYY')
@@ -51,7 +77,9 @@ const evaluateFunction = (funcStr, x) => {
             .replace(/exp/g, 'XXYYEXPXXYY')
             .replace(/abs/g, 'XXYYABSXXYY');
 
-        // Now replace placeholders with actual Math functions
+        // -------------------------------
+        // 7. Replace placeholders with Math.*
+        // -------------------------------
         expr = expr
             .replace(/XXYYSINXXYY/g, 'Math.sin')
             .replace(/XXYYCOSXXYY/g, 'Math.cos')
@@ -64,23 +92,36 @@ const evaluateFunction = (funcStr, x) => {
             .replace(/XXYYLOGXXYY\(/g, '(Math.log(')
             .replace(/XXYYEXPXXYY/g, 'Math.exp')
             .replace(/XXYYABSXXYY/g, 'Math.abs')
-            .replace(/XXYYCOSINLNXXYY/g, 'Math.log(Math.cos');  // cosinln = ln(cos(...))
+            .replace(/XXYYCOSINLNXXYY/g, 'Math.log(Math.cos');
 
-        // Fix log base 10
-        expr = expr.replace(/\(Math\.log\(([^()]+)\)\)/g, '(Math.log($1)/Math.LN10)');
-        
-        // Add closing paren for sec/cosec/csc
+        // -------------------------------
+        // 8. Fix base-10 logarithm
+        // -------------------------------
+        expr = expr.replace(
+            /\(Math\.log\(([^()]+)\)\)/g,
+            '(Math.log($1)/Math.LN10)'
+        );
+
+        // -------------------------------
+        // 9. Balance parentheses (safety)
+        // -------------------------------
         const openCount = (expr.match(/\(/g) || []).length;
         const closeCount = (expr.match(/\)/g) || []).length;
         if (openCount > closeCount) {
             expr += ')'.repeat(openCount - closeCount);
         }
 
-        // Evaluate the expression with x as parameter
+        // -------------------------------
+        // 10. Evaluate
+        // -------------------------------
         const result = new Function('x', `return ${expr}`)(x);
 
-        if (isNaN(result) || !isFinite(result)) throw new Error('NaN or Infinity');
+        if (!isFinite(result) || isNaN(result)) {
+            throw new Error('NaN or Infinity');
+        }
+
         return result;
+
     } catch (e) {
         throw new Error('Invalid function or math error: ' + e.message);
     }
