@@ -407,6 +407,37 @@ body {
     width: 100%;
 }
 
+
+#toggle-iterations {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border: 2px solid black;
+    background-color: #8CA9FF;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+#toggle-iterations:hover {
+    background-color: #AAC4F5;
+}
+
+/* Optional arrow rotation */
+#toggle-iterations::after {
+    display: inline-block;
+    margin-left: 0.5rem;
+    transition: transform 0.25s;
+}
+
+#toggle-iterations.open::after {
+    transform: rotate(180deg);
+}
+
+
 /* ===========================
    Responsive Adjustments
 =========================== */
@@ -418,3 +449,4 @@ body {
     .graph-control-grid { flex-direction: column; }
     .graph-container { height: 350px; }
 }
+

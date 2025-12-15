@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About - HalfWay</title>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ===========================
    Base Styles and Typography
@@ -35,11 +35,12 @@ body {
 }
 
 .title {
-   font-family: 'Pixelify Sans', cursive;
+    font-family: 'Pixelify Sans', cursive;
     font-size: 3rem;
     font-weight: 700;
     color: #7898f9;
     margin: 0;
+    justify-content: space-between;
 }
 
 .button-return {
@@ -74,7 +75,6 @@ body {
     background-color: #ECF4E8;
     border: 2px solid black;
     padding: 2rem;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
 
 .about-section h2 {
@@ -198,26 +198,26 @@ body {
     .about-content {
         grid-template-columns: 1fr;
     }
-    
+
     .developers-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 1.5rem;
     }
-    
+
     .developer-card img {
         width: 100px;
         height: 100px;
     }
-    
+
     .developer-first-name,
     .developer-last-name {
         font-size: 1.2rem;
     }
-    
+
     .developer-program {
         font-size: 0.9rem;
     }
-    
+
     .developer-email {
         font-size: 0.8rem;
     }
@@ -240,31 +240,32 @@ body {
     .developers-section h2 {
         font-size: 2rem;
     }
-    
+
     .developers-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
     }
-    
+
     .developer-card img {
         width: 80px;
         height: 80px;
         border-width: 2px;
     }
-    
+
     .developer-first-name,
     .developer-last-name {
         font-size: 0.9rem;
     }
-    
+
     .developer-program {
         font-size: 0.75rem;
     }
-    
+
     .developer-email {
         font-size: 0.7rem;
     }
 }
+
 </style>
 </head>
 <body>
@@ -274,8 +275,8 @@ body {
             <a class="button-return" href="index.html">Return</a>
         </header>
 
+
         <div class="main-container">
-            <!-- About Section (Top) -->
             <section class="about-section">
                 <h2>About HalfWay</h2>
                 <div class="about-content">
@@ -292,7 +293,6 @@ body {
                         </ul>
                     </div>
                     <div class="about-column">
-                        <h3>Academic Context</h3>
                         <p class="about-description">
                             This project was developed in partial fulfillment of the subject CCS 239: Optimization Theory and Applications. Created by fourth-year Bachelor of Science in Computer Science students from section 4B AI at West Visayas State University.
                         </p>
@@ -307,7 +307,6 @@ body {
                 </div>
             </section>
 
-            <!-- Developers Section (Bottom) -->
             <section class="developers-section">
                 <h2>Meet the Developers</h2>
                 <div class="developers-grid">
