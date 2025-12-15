@@ -398,7 +398,7 @@ const downloadCSV = () => {
     if (!results.length) return;
 
     // CSV header
-    const headers = ["Iteration", "a", "b", "c", "f(a)", "f(b)", "f(c)", "b-a", "Tolerance Met"];
+    const headers = ["Iteration", "a", "b", "c", "f(a)", "f(b)", "f(c)", "b-a", "Tolerance Met?"];
     const rows = results.map(r => [
         r.iteration,
         r.a.toFixed(6),
